@@ -1,0 +1,441 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        320,
+        272
+      ],
+      "id": "caae8a1d-f22b-4da4-b65f-24cc7319ebe0",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                5
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -832,
+        32
+      ],
+      "id": "3fcefdd6-a2f9-4e04-9f88-3d6153c2625d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -832,
+        400
+      ],
+      "id": "9c3e3bc6-a517-40f9-9132-9c9a673f4b68",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.pagerduty.com/oncalls",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "time_zone",
+              "value": "={{ $json.timezone }}"
+            },
+            {
+              "name": "limit",
+              "value": "25"
+            },
+            {
+              "name": "include[]",
+              "value": "users"
+            },
+            {
+              "name": "schedule_ids[]",
+              "value": "ADD YOUR ID HERE"
+            },
+            {
+              "name": "since",
+              "value": "={{ $json.since }}"
+            },
+            {
+              "name": "until",
+              "value": "={{ $json.until }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Token token=[ADD YOUR TOKEN HERE]"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -176,
+        496
+      ],
+      "id": "0c67ffdf-524a-459c-a723-a9faffce104b",
+      "name": "Team Lead (pagerduty)"
+    },
+    {
+      "parameters": {
+        "url": "https://api.pagerduty.com/oncalls",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "time_zone",
+              "value": "={{ $json.timezone }}"
+            },
+            {
+              "name": "limit",
+              "value": "25"
+            },
+            {
+              "name": "include[]",
+              "value": "users"
+            },
+            {
+              "name": "schedule_ids[]",
+              "value": "ADD YOUR ID HERE"
+            },
+            {
+              "name": "since",
+              "value": "={{ $json.since }}"
+            },
+            {
+              "name": "until",
+              "value": "={{ $json.until }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Token token=[ADD YOUR TOKEN HERE]"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -176,
+        288
+      ],
+      "id": "706be06c-9f52-4127-8dae-09c04f4f2b69",
+      "name": "VI team (pagerduty)"
+    },
+    {
+      "parameters": {
+        "url": "https://api.pagerduty.com/oncalls",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "time_zone",
+              "value": "={{ $json.timezone }}"
+            },
+            {
+              "name": "limit",
+              "value": "25"
+            },
+            {
+              "name": "include[]",
+              "value": "users"
+            },
+            {
+              "name": "schedule_ids[]",
+              "value": "ADD YOUR ID HERE"
+            },
+            {
+              "name": "since",
+              "value": "={{ $json.since }}"
+            },
+            {
+              "name": "until",
+              "value": "={{ $json.until }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Token token=[ADD YOUR TOKEN HERE]"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -176,
+        32
+      ],
+      "id": "cff90fd8-17c1-46fc-a084-73b907c5d619",
+      "name": "DevOps team (pagerduty)"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.oncalls[0].user.contact_methods[1].self }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Token token=[ADD YOUR TOKEN HERE]"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        64,
+        496
+      ],
+      "id": "a9247454-d6c5-484d-a5d5-d86e5a433830",
+      "name": "Team Lead Contact Number (pagerduty)"
+    },
+    {
+      "parameters": {
+        "jsCode": "function getWeekday(date) {\n  // Monday = 1, Sunday = 7\n  const day = date.getDay(); // Sunday = 0\n  return day === 0 ? 7 : day;\n}\n\nconst results = {\n  weekday_day: [],\n  weekday_night: [],\n  weekend: []\n};\n\nfor (const call of items[0].json.oncalls) {\n  const user = call.user?.name || \"Unknown\";\n  \n  // Parse start/end as Toronto-local times\n  const start = new Date(new Date(call.start).toLocaleString(\"en-US\", { timeZone: \"America/Toronto\" }));\n  const end = new Date(new Date(call.end).toLocaleString(\"en-US\", { timeZone: \"America/Toronto\" }));\n\n  let cursor = new Date(start);\n\n  while (cursor < end) {\n    const weekday = getWeekday(cursor);\n    const hour = cursor.getHours();\n\n    if (weekday >= 1 && weekday <= 5) {\n      if (hour >= 8 && hour < 17) {\n        // Weekday (8 AM – 5 PM)\n        if (!results.weekday_day.includes(user)) results.weekday_day.push(user);\n      } else {\n        // Weekday night (5 PM – 8 AM)\n        if (!results.weekday_night.includes(user)) results.weekday_night.push(user);\n      }\n    } else {\n      // Weekend (Saturday, Sunday)\n      if (!results.weekend.includes(user)) results.weekend.push(user);\n    }\n\n    cursor.setHours(cursor.getHours() + 1);\n  }\n}\n\nreturn [{ json: results }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        32
+      ],
+      "id": "5e892026-4cf8-4df8-8117-c1cebf065199",
+      "name": "Weekly schedule"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get current time in New_York\nconst now = new Date(new Date().toLocaleString(\"en-US\", { timeZone: \"America/New_York\" }));\n\n// --- Base week range (Friday 5:00 PM New_York → next Friday 7:59:59 AM New_York) ---\nconst dayOfWeek = now.getDay(); // 0=Sun ... 5=Fri\nconst daysUntilFriday = (5 - dayOfWeek + 7) % 7;\n\n// If it's Friday but before 5:00 PM New_York, start this Friday; otherwise next Friday\nconst isFriday = dayOfWeek === 5;\nconst isBefore1700 = now.getHours() < 17;\nconst fridayOffset = (isFriday && isBefore1700) ? 0 : daysUntilFriday;\n\n// This Friday 5:00 PM New_York (start of after-hours)\nconst since = new Date(now);\nsince.setDate(now.getDate() + fridayOffset);\nsince.setHours(17, 0, 0, 0);\n\n// Next Friday 7:59:59 AM New_York (end of after-hours)\nconst until = new Date(since);\nuntil.setDate(since.getDate() + 7);\nuntil.setHours(7, 59, 59, 999);\n\n// Return UTC equivalents (PagerDuty API expects UTC)\nreturn [\n  {\n    json: {\n      since: new Date(since.toLocaleString(\"en-US\", { timeZone: \"UTC\" })).toISOString(),\n      until: new Date(until.toLocaleString(\"en-US\", { timeZone: \"UTC\" })).toISOString(),\n      timezone: \"America/New_York\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        288
+      ],
+      "id": "107d5d59-29be-435e-8f63-498ac473d331",
+      "name": "America/New_York"
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        576,
+        288
+      ],
+      "id": "d63bcc3a-a8ae-4f8e-b05a-6f8c238a6298",
+      "name": "Send a text message",
+      "webhookId": "168c2a16-e96d-4ba4-bfb3-7f8ddc9fd4cb",
+      "credentials": {
+        "telegramApi": {
+          "id": "HmSAfHEK75H8jMjR",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "America/New_York",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "America/New_York",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Team Lead (pagerduty)": {
+      "main": [
+        [
+          {
+            "node": "Team Lead Contact Number (pagerduty)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VI team (pagerduty)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "DevOps team (pagerduty)": {
+      "main": [
+        [
+          {
+            "node": "Weekly schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Team Lead Contact Number (pagerduty)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Weekly schedule": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "America/New_York": {
+      "main": [
+        [
+          {
+            "node": "DevOps team (pagerduty)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "VI team (pagerduty)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Team Lead (pagerduty)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "39bcf5362060bfa1153ff93d0e8b60dc64a70059aac3ab6c3926746bb8826830"
+  }
+}
